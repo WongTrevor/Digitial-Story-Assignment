@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Custom CSS -->
     <style>
         * {
             box-sizing: border-box;
@@ -21,11 +20,12 @@
             font-family: 'Poppins', sans-serif;
             background-color: #f0f4f8;
             scroll-behavior: smooth;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Navigation */
         nav {
-            background-color: #292b2c;
+            background-color: rgba(41, 43, 44, 0.8);
             padding: 1rem;
             position: fixed;
             width: 100%;
@@ -33,7 +33,6 @@
             left: 0;
             z-index: 1000;
             transition: background-color 0.3s ease;
-            text-align: center; /* Center navigation items */
         }
 
         nav.sticky {
@@ -42,12 +41,12 @@
 
         nav ul {
             list-style: none;
-            display: inline-flex; /* Change to inline-flex for center alignment */
-            justify-content: center; /* Center the list items */
+            display: flex;
+            justify-content: center; /* Centering the navigation */
         }
 
         nav ul li {
-            display: inline;
+            margin: 0 15px; /* Adding space between buttons */
         }
 
         nav ul li a {
@@ -55,30 +54,30 @@
             text-decoration: none;
             font-size: 1.1rem;
             padding: 10px 20px;
-            transition: background-color 0.3s ease;
-            margin: 0 10px; /* Spacing between buttons */
+            border: 2px solid transparent;
             border-radius: 5px;
+            transition: background-color 0.3s ease, border 0.3s ease;
         }
 
-        nav ul li a:hover {
+        nav ul li a:hover, .dark-mode-button:hover {
             background-color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+            border-radius: 5px;
         }
 
         /* Dark Mode Button */
-        .dark-mode-toggle {
-            background-color: #ff6b6b; /* Button background */
-            color: #fff; /* Button text color */
+        .dark-mode-button {
+            color: #fff;
+            background: linear-gradient(90deg, #ff6b6b, #ff3d3d);
             border: none;
             padding: 10px 20px;
-            font-size: 1rem;
-            cursor: pointer;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
-            margin-left: 20px; /* Space from other buttons */
+            cursor: pointer;
+            transition: transform 0.2s ease;
         }
 
-        .dark-mode-toggle:hover {
-            background-color: #e84343; /* Darker shade on hover */
+        .dark-mode-button:hover {
+            transform: scale(1.05);
         }
 
         /* Header */
@@ -173,25 +172,30 @@
         /* Features Section */
         .features {
             display: flex;
-            justify-content: center; /* Center the feature blocks */
-            flex-wrap: wrap; /* Allow wrapping for smaller screens */
-            padding: 40px 20px;
+            justify-content: space-around;
+            padding: 40px 0;
+            flex-wrap: wrap;
         }
 
         .features div {
-            width: 300px; /* Fixed width */
-            background-color: #f8f9fa; /* Light background for features in light mode */
-            color: #333; /* Original text color for light mode */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 30%;
+            padding: 20px;
+            background: linear-gradient(180deg, rgba(255, 107, 107, 0.8), rgba(255, 255, 255, 0.1));
             border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            margin: 10px; /* Space between blocks */
-            padding: 20px; /* Padding for content */
-            text-align: center; /* Center text */
-            display: flex; /* Enable flex for centering contents */
-            flex-direction: column; /* Arrange children vertically */
-            align-items: center; /* Center align children horizontally */
-            justify-content: center; /* Center align children vertically */
+            text-align: center;
+        }
+
+        .features div:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(180deg, rgba(255, 107, 107, 0.9), rgba(255, 255, 255, 0.2));
+        }
+
+        .features i {
+            font-size: 3rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
         }
 
         /* Animated Counters */
@@ -240,7 +244,7 @@
 
         /* Footer */
         footer {
-            background-color: #292b2c;
+            background-color: rgba(41, 43, 44, 0.8);
             color: #fff;
             text-align: center;
             padding: 2rem 0;
@@ -259,30 +263,24 @@
 
         /* Dark Mode Styles */
         body.dark-mode {
-            background-color: #121212; /* Dark background */
-            color: #ffffff; /* Default text color in dark mode */
+            background-color: #121212;
+            color: #e0e0e0;
         }
 
         nav.dark-mode {
-            background-color: rgba(41, 43, 44, 0.9); /* Darker nav background */
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
-        .dark-mode .features div {
-            background-color: #1e1e1e; /* Dark background for feature blocks */
-            color: #ffffff; /* Text color in dark mode */
+        h2.dark-mode {
+            color: #e0e0e0;
         }
 
-        .dark-mode .counter {
-            color: #ff6b6b; /* Counter color in dark mode */
+        .about p.dark-mode, .features div h3.dark-mode {
+            color: #e0e0e0;
         }
 
-        .dark-mode .modal-content {
-            background-color: #333; /* Dark background for modal */
-            color: #ffffff; /* Text color in modal */
-        }
-
-        .dark-mode .close {
-            color: #ffffff; /* Close button color in dark mode */
+        .counter.dark-mode {
+            color: #ff6b6b;
         }
     </style>
 </head>
@@ -295,42 +293,39 @@
             <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="#contact">Contact</a></li>
-            <li><button class="dark-mode-toggle" onclick="toggleDarkMode()">Dark Mode</button></li>
+            <li><button class="dark-mode-button" onclick="toggleDarkMode()">🌙</button></li> <!-- Dark Mode Button -->
         </ul>
     </nav>
 
     <!-- Header Section -->
     <header id="home">
-        <h1>Welcome to Your Awesome Platform</h1>
-        <p>Empowering Learning Experiences for Everyone</p>
-        <button onclick="openModal()">Learn More</button>
+        <h1>Build Your Future with Us</h1>
+        <p>A Professional Platform Connecting People with Opportunities</p>
+        <button onclick="showModal()">Learn More</button>
     </header>
 
     <!-- About Section -->
-    <div class="container about" id="about">
+    <section id="about" class="container about">
         <h2>About Us</h2>
-        <p>We are dedicated to providing innovative learning experiences to empower individuals in their educational journey.</p>
-    </div>
+        <p>Our platform is designed to foster innovative learning, community engagement, and expert mentorship, empowering individuals to thrive in their respective fields.</p>
+    </section>
 
     <!-- Features Section -->
-    <section class="features" id="features">
+    <section id="services" class="features">
         <div>
-            <i class="fas fa-graduation-cap"></i>
-            <h3>Innovative Learning</h3>
-            <p>Discover cutting-edge courses tailored to your needs.</p>
-            <div class="counter" data-target="5000">0</div>
+            <i class="fas fa-book"></i>
+            <h3 class="dark-mode">Innovative Learning</h3>
+            <p class="counter dark-mode">100+</p>
         </div>
         <div>
             <i class="fas fa-users"></i>
-            <h3>Community Engagement</h3>
-            <p>Join a vibrant community of learners and professionals.</p>
-            <div class="counter" data-target="15000">0</div>
+            <h3 class="dark-mode">Community Engagement</h3>
+            <p class="counter dark-mode">500+</p>
         </div>
         <div>
-            <i class="fas fa-user-tie"></i>
-            <h3>Expert Mentorship</h3>
-            <p>Connect with industry experts who can guide you on your learning journey.</p>
-            <div class="counter" data-target="300">0</div>
+            <i class="fas fa-chalkboard-teacher"></i>
+            <h3 class="dark-mode">Expert Mentorship</h3>
+            <p class="counter dark-mode">300+</p>
         </div>
     </section>
 
@@ -338,63 +333,55 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Learn More About Us</h2>
-            <p>We are committed to enhancing learning through innovative methods and community support.</p>
+            <h2>Welcome to Our Platform!</h2>
+            <p>We are dedicated to providing the best opportunities for your professional growth.</p>
         </div>
     </div>
 
-    <!-- Footer Section -->
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Your Awesome Platform. All rights reserved. <a href="#">Privacy Policy</a></p>
+        <p>&copy; 2024 Your Awesome Platform. All rights reserved.</p>
+        <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
     </footer>
 
     <!-- JavaScript -->
     <script>
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            document.querySelector('nav').classList.toggle('dark-mode');
-        }
+        const toggleDarkMode = () => {
+            const body = document.body;
+            const navbar = document.getElementById('navbar');
+            const elements = document.querySelectorAll('h2, .about p, .features div h3, .counter');
+            body.classList.toggle('dark-mode');
+            navbar.classList.toggle('dark-mode');
+            elements.forEach(element => {
+                element.classList.toggle('dark-mode');
+            });
+        };
 
-        // Modal functions
-        function openModal() {
-            document.getElementById('myModal').style.display = "block";
-        }
+        const showModal = () => {
+            document.getElementById('myModal').style.display = 'block';
+        };
 
-        function closeModal() {
-            document.getElementById('myModal').style.display = "none";
-        }
+        const closeModal = () => {
+            document.getElementById('myModal').style.display = 'none';
+        };
 
-        // Animated counters
-        const counters = document.querySelectorAll('.counter');
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
+        // Close the modal if the user clicks anywhere outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('myModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
 
-                const increment = target / 200; // Change divisor for speed
-
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + increment);
-                    setTimeout(updateCount, 1);
-                } else {
-                    counter.innerText = target;
-                }
-            };
-            updateCount();
-        });
-
-        // Sticky Navigation
+        // Sticky navigation
         window.onscroll = function() {
-            const navbar = document.getElementById("navbar");
+            const navbar = document.getElementById('navbar');
             if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-                navbar.classList.add("sticky");
+                navbar.classList.add('sticky');
             } else {
-                navbar.classList.remove("sticky");
+                navbar.classList.remove('sticky');
             }
         };
     </script>
-</body>
-</html>
-
 </body>
 </html>
