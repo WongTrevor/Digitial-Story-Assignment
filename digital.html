@@ -32,21 +32,17 @@
             top: 0;
             left: 0;
             z-index: 1000;
-            transition: background-color 0.3s ease;
-        }
-
-        nav.sticky {
-            background-color: rgba(41, 43, 44, 0.9);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         nav ul {
             list-style: none;
             display: flex;
-            justify-content: center; /* Centering the navigation */
+            justify-content: center;
         }
 
         nav ul li {
-            margin: 0 15px; /* Adding space between buttons */
+            margin: 0 15px;
         }
 
         nav ul li a {
@@ -59,25 +55,38 @@
             transition: background-color 0.3s ease, border 0.3s ease;
         }
 
-        nav ul li a:hover, .dark-mode-button:hover {
+        nav ul li a:hover {
             background-color: #ff6b6b;
             border: 2px solid #ff6b6b;
-            border-radius: 5px;
         }
 
-        /* Dark Mode Button */
-        .dark-mode-button {
+        /* Star Shape Button */
+        .star-button {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(90deg, #6b6bff, #3d3dff);
             color: #fff;
-            background: linear-gradient(90deg, #ff6b6b, #ff3d3d);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
             cursor: pointer;
-            transition: transform 0.2s ease;
+            border: none;
+            position: relative;
+            transition: background 0.3s ease, transform 0.3s ease;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .dark-mode-button:hover {
-            transform: scale(1.05);
+        .star-button i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center the icon */
+            font-size: 24px; /* Adjust icon size */
+            z-index: 1; /* Bring the icon above the star background */
+        }
+
+        .star-button:hover {
+            background: linear-gradient(90deg, #3d3dff, #6b6bff);
+            transform: scale(1.1); /* Smooth scaling on hover */
         }
 
         /* Header */
@@ -91,59 +100,26 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            transition: background 0.3s ease;
+            animation: fadeIn 1s;
+            overflow: hidden; /* Prevent overflow */
         }
 
         header h1 {
             font-size: 4rem;
             font-weight: 700;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-            animation: fadeInDown 2s;
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.5s;
         }
 
         header p {
             font-size: 1.5rem;
             margin-top: 10px;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-            animation: fadeInUp 2s;
-        }
-
-        header button {
-            background-color: #ff6b6b;
-            color: #fff;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-            margin-top: 20px;
-        }
-
-        header button:hover {
-            background-color: #e84343;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.8s;
         }
 
         /* About Section */
@@ -167,6 +143,7 @@
             line-height: 1.7;
             max-width: 800px;
             margin: 0 auto;
+            transition: color 0.3s ease;
         }
 
         /* Features Section */
@@ -182,13 +159,15 @@
             padding: 20px;
             background: linear-gradient(180deg, rgba(255, 107, 107, 0.8), rgba(255, 255, 255, 0.1));
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease, transform 0.3s ease;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
         .features div:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.05); /* Lift and scale effect on hover */
             background: linear-gradient(180deg, rgba(255, 107, 107, 0.9), rgba(255, 255, 255, 0.2));
         }
 
@@ -196,14 +175,17 @@
             font-size: 3rem;
             color: #ff6b6b;
             margin-bottom: 20px;
+            position: relative;
+            animation: bounce 1s infinite alternate;
         }
 
-        /* Animated Counters */
-        .counter {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #ff6b6b;
-            margin-top: 20px;
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-10px);
+            }
         }
 
         /* Modal */
@@ -217,6 +199,16 @@
             height: 100%;
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeInModal 0.3s;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         .modal-content {
@@ -226,6 +218,7 @@
             border-radius: 5px;
             width: 80%;
             max-width: 600px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
         }
 
         .close {
@@ -247,141 +240,163 @@
             background-color: rgba(41, 43, 44, 0.8);
             color: #fff;
             text-align: center;
-            padding: 2rem 0;
-            margin-top: 50px;
+            padding: 20px;
+            position: relative;
         }
 
-        footer a {
-            color: #ff6b6b;
-            text-decoration: none;
-            transition: color 0.3s ease;
+        footer p {
+            font-size: 1rem;
         }
 
-        footer a:hover {
-            color: #fff;
-        }
-
-        /* Dark Mode Styles */
+        /* Dark Mode */
         body.dark-mode {
-            background-color: #121212;
-            color: #e0e0e0;
+            background-color: #1e1e1e;
+            color: #f0f4f8;
         }
 
-        nav.dark-mode {
-            background-color: rgba(255, 255, 255, 0.1);
+        body.dark-mode h2,
+        body.dark-mode p {
+            color: #f0f4f8;
         }
 
-        h2.dark-mode {
-            color: #e0e0e0;
-        }
-
-        .about p.dark-mode, .features div h3.dark-mode {
-            color: #e0e0e0;
-        }
-
-        .counter.dark-mode {
-            color: #ff6b6b;
+        body.dark-mode .about p {
+            color: #ddd;
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Section -->
     <nav id="navbar">
         <ul>
-            <li><a href="#home">Home</a></li>
+            <li><a href="#header">Home</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
+            <li><a href="#features">Features</a></li>
             <li><a href="#contact">Contact</a></li>
-            <li><button class="dark-mode-button" onclick="toggleDarkMode()">🌙</button></li> <!-- Dark Mode Button -->
         </ul>
+        <button class="star-button" onclick="toggleDarkMode()">
+            <i class="fas fa-moon"></i>
+        </button>
     </nav>
 
-    <!-- Header Section -->
-    <header id="home">
-        <h1>Build Your Future with Us</h1>
-        <p>A Professional Platform Connecting People with Opportunities</p>
-        <button onclick="showModal()">Learn More</button>
+    <header id="header">
+        <h1>Welcome to Your Awesome Platform</h1>
+        <p>Discover the future of technology with us.</p>
     </header>
 
-    <!-- About Section -->
-    <section id="about" class="container about">
+    <div class="container" id="about">
         <h2>About Us</h2>
-        <p>Our platform is designed to foster innovative learning, community engagement, and expert mentorship, empowering individuals to thrive in their respective fields.</p>
-    </section>
+        <div class="about">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis egestas rhoncus.</p>
+        </div>
+    </div>
 
-    <!-- Features Section -->
-    <section id="services" class="features">
+    <div class="features" id="features">
         <div>
-            <i class="fas fa-book"></i>
-            <h3 class="dark-mode">Innovative Learning</h3>
-            <p class="counter dark-mode">100+</p>
+            <i class="fas fa-cogs"></i>
+            <h3>Feature One</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <span class="counter">120</span>
         </div>
         <div>
-            <i class="fas fa-users"></i>
-            <h3 class="dark-mode">Community Engagement</h3>
-            <p class="counter dark-mode">500+</p>
+            <i class="fas fa-laptop"></i>
+            <h3>Feature Two</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <span class="counter">80</span>
         </div>
         <div>
-            <i class="fas fa-chalkboard-teacher"></i>
-            <h3 class="dark-mode">Expert Mentorship</h3>
-            <p class="counter dark-mode">300+</p>
+            <i class="fas fa-bullhorn"></i>
+            <h3>Feature Three</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <span class="counter">150</span>
         </div>
-    </section>
+        <div>
+            <i class="fas fa-star"></i>
+            <h3>Feature Four</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <span class="counter">200</span>
+        </div>
+        <div>
+            <i class="fas fa-heart"></i>
+            <h3>Feature Five</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <span class="counter">300</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Your Awesome Platform. All rights reserved.</p>
+    </footer>
 
     <!-- Modal -->
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Welcome to Our Platform!</h2>
-            <p>We are dedicated to providing the best opportunities for your professional growth.</p>
+            <h2>Learn More</h2>
+            <p>This is where you can provide more information about your platform.</p>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Your Awesome Platform. All rights reserved.</p>
-        <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
-    </footer>
-
-    <!-- JavaScript -->
     <script>
-        const toggleDarkMode = () => {
-            const body = document.body;
-            const navbar = document.getElementById('navbar');
-            const elements = document.querySelectorAll('h2, .about p, .features div h3, .counter');
-            body.classList.toggle('dark-mode');
-            navbar.classList.toggle('dark-mode');
-            elements.forEach(element => {
-                element.classList.toggle('dark-mode');
-            });
-        };
-
-        const showModal = () => {
-            document.getElementById('myModal').style.display = 'block';
-        };
-
-        const closeModal = () => {
-            document.getElementById('myModal').style.display = 'none';
-        };
-
-        // Close the modal if the user clicks anywhere outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById('myModal');
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        };
-
-        // Sticky navigation
+        // Sticky Navigation
         window.onscroll = function() {
-            const navbar = document.getElementById('navbar');
-            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-                navbar.classList.add('sticky');
+            const navbar = document.getElementById("navbar");
+            const sticky = navbar.offsetTop;
+
+            if (window.pageYOffset > sticky) {
+                navbar.classList.add("sticky");
             } else {
-                navbar.classList.remove('sticky');
+                navbar.classList.remove("sticky");
             }
         };
+
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            const button = document.querySelector('.star-button');
+            button.classList.toggle("active");
+
+            // Change the button color without affecting the navigation bar
+            if (document.body.classList.contains("dark-mode")) {
+                button.style.background = "linear-gradient(90deg, #ff6b6b, #ff3d3d)";
+            } else {
+                button.style.background = "linear-gradient(90deg, #6b6bff, #3d3dff)";
+            }
+        }
+
+        // Modal
+        function openModal() {
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        // Close modal on clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById("myModal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+
+        // Animated Counters
+        document.querySelectorAll('.counter').forEach(counter => {
+            let count = 0;
+            const target = +counter.innerText;
+
+            const updateCounter = () => {
+                const increment = target / 200; // Change the speed of the counter here
+                if (count < target) {
+                    count += increment;
+                    counter.innerText = Math.ceil(count);
+                    setTimeout(updateCounter, 10);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCounter();
+        });
     </script>
 </body>
 </html>
