@@ -3,11 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Your Awesome Platform</title>
+    <title>Impact of Drug Legalization in Metro Vancouver - Digital Editorial</title>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p6UgECz2ePnH/Wr5qRlhOTNnyJ7G4Kra1q+4A0XVRwE5q5B1fRQybM3E7/5BtU4+vTktX21KUgA+3/ejVJm5GA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- AOS CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <style>
+        /* CSS Variables for Theme Management */
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #ff4b4b;
+            --background-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            --night-background-gradient: linear-gradient(135deg, #1c1c1c, #343434);
+            --card-background: linear-gradient(135deg, #333, #444);
+            --accent-color: #4a90e2;
+            --text-color: #f0f4f8;
+            --nav-background: rgba(41, 43, 44, 0.8);
+            --nav-scrolled-background: rgba(41, 43, 44, 1);
+            --link-hover-bg: rgba(255, 107, 107, 0.2);
+            --button-hover-bg: #ff4b4b;
+            --accordion-background: rgba(41, 43, 44, 0.9); /* New Variable for Accordion Background */
+        }
+
+        /* Global Styles */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -16,19 +36,36 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f0f4f8;
-            color: #333;
+            background: var(--background-gradient);
+            color: var(--text-color);
             scroll-behavior: smooth;
             transition: background-color 0.3s ease, color 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
         }
 
         body.night-mode {
-            background-color: #181818;
-            color: #f0f4f8;
+            background: var(--night-background-gradient);
+            color: var(--text-color);
         }
 
+        body.locked {
+            overflow: hidden;
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            top: 0;
+            left: 0;
+        }
+
+        /* Navigation Styles */
         nav {
-            background-color: rgba(41, 43, 44, 0.8);
+            background: var(--nav-background);
             padding: 1rem;
             position: fixed;
             width: 100%;
@@ -40,7 +77,7 @@
         }
 
         nav.scrolled {
-            background-color: rgba(41, 43, 44, 1);
+            background-color: var(--nav-scrolled-background);
         }
 
         nav ul {
@@ -51,6 +88,7 @@
 
         nav ul li {
             margin: 0 15px;
+            position: relative;
         }
 
         nav ul li a {
@@ -61,35 +99,118 @@
             border: 2px solid transparent;
             border-radius: 5px;
             transition: background-color 0.3s ease, border 0.3s ease, transform 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background: var(--primary-color);
+            left: 0;
+            bottom: 0;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
         }
 
         nav ul li a:hover {
-            background-color: #ff6b6b;
-            border: 2px solid #ff6b6b;
-            transform: scale(1.05); /* Slightly scale up on hover */
+            background-color: var(--link-hover-bg);
+            border: 2px solid var(--primary-color);
+            transform: scale(1.05);
         }
 
-        .night-mode-toggle {
+        /* Enhanced Night Mode and Lock Buttons */
+        .night-mode-toggle, .lock-button {
             background: none;
             border: none;
             color: #fff;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
             position: absolute;
-            right: 20px;
             top: 15px;
-            transition: color 0.3s ease;
+            z-index: 1001;
         }
 
-        .night-mode-toggle:hover {
-            color: #ff6b6b;
+        .night-mode-toggle:hover, .lock-button:hover {
+            color: var(--primary-color);
         }
 
+        /* Lock Button Enhancements */
+        .lock-button {
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 107, 107, 0.2);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            /* 3D Shadow */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .lock-button:hover {
+            background-color: var(--button-hover-bg);
+            transform: scale(1.1);
+            /* 3D Animation */
+            animation: flip 1s forwards;
+        }
+
+        @keyframes flip {
+            0% { transform: rotateY(0deg) scale(1.1); }
+            100% { transform: rotateY(360deg) scale(1.1); }
+        }
+
+        /* Upward Button Enhancements */
+        .upward-button {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            display: none;
+            backdrop-filter: blur(10px);
+            font-size: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upward-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7);
+            /* 3D Animation */
+            animation: pulsate 1.5s infinite;
+        }
+
+        @keyframes pulsate {
+            0% { transform: scale(1.1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* Header Styles */
         header {
-            background-image: url('https://via.placeholder.com/1500x500');
+            background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80');
+            /* Updated with a relevant image from Unsplash */
             background-size: cover;
             background-position: center;
-            height: 100vh;
+            height: 500px; /* Changed from 100vh to 500px to fit 1500x500 */
             color: #fff;
             text-align: center;
             display: flex;
@@ -97,6 +218,7 @@
             justify-content: center;
             overflow: hidden;
             position: relative;
+            background-attachment: fixed;
         }
 
         header::after {
@@ -111,13 +233,16 @@
         }
 
         header h1 {
-            font-size: 4rem;
+            font-size: 3rem;
             font-weight: 700;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             transform: translateY(-20px);
             opacity: 0;
             animation: fadeInUp 1s forwards 0.5s;
             z-index: 2;
+            background: var(--accent-color);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         header p {
@@ -130,6 +255,7 @@
             z-index: 2;
         }
 
+        /* Container Styles */
         .container {
             padding: 80px 20px;
             text-align: center;
@@ -139,16 +265,31 @@
 
         h2 {
             font-size: 2.5rem;
-            color: #333;
+            color: var(--text-color);
             margin-bottom: 20px;
             font-weight: 700;
             opacity: 0;
             animation: fadeIn 1s forwards 0.5s;
+            position: relative;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 4px;
+            background: var(--primary-color);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+            opacity: 0;
+            animation: slideIn 1s forwards 0.7s;
         }
 
         .about p {
             font-size: 1.2rem;
-            color: #555;
+            color: #ffffff;
             line-height: 1.7;
             max-width: 800px;
             margin: 0 auto;
@@ -157,6 +298,7 @@
             animation: fadeIn 1s forwards 0.8s;
         }
 
+        /* Features Section */
         .features {
             display: flex;
             justify-content: space-around;
@@ -166,13 +308,19 @@
 
         .features .card {
             width: 30%;
-            height: 200px;
-            perspective: 1000px;
-            margin: 10px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            height: 400px; /* Increased height for more content */
+            perspective: 1500px;
+            margin: 20px;
+            transition: transform 0.4s, box-shadow 0.4s;
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            background: var(--card-background);
+            opacity: 0;
+            animation: fadeIn 1s forwards 0.6s;
+            cursor: pointer;
         }
 
         .features .card-inner {
@@ -181,6 +329,8 @@
             position: relative;
             transition: transform 0.6s;
             transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
 
         .features .card-front,
@@ -191,25 +341,26 @@
             backface-visibility: hidden;
             border-radius: 10px;
             transition: transform 0.3s;
-        }
-
-        .features .card-front {
-            background: rgba(255, 255, 255, 0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
+            padding: 20px;
+        }
+
+        .features .card-front {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .features .card-back {
-            background: #ff6b6b;
+            background: var(--primary-color);
             color: white;
             transform: rotateY(180deg);
+            padding: 30px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            text-align: center;
         }
 
         .features .card:hover .card-inner {
@@ -223,23 +374,236 @@
 
         .features i {
             font-size: 3rem;
-            color: #ff6b6b;
+            color: var(--primary-color);
             margin-bottom: 20px;
             position: relative;
             animation: bounce 1s infinite alternate;
         }
 
-        @keyframes bounce {
-            from {
-                transform: translateY(0);
-            }
-            to {
-                transform: translateY(-10px);
-            }
+        /* Enhanced 3D Buttons */
+        .features .card-button {
+            margin-top: 15px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            font-weight: 600;
+            /* 3D Effect */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
 
+        .features .card-button:hover {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Editorial Section */
+        .editorial {
+            margin-top: 60px;
+            perspective: 1000px;
+        }
+
+        .accordion {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 10px;
+            background: var(--accordion-background); /* Updated Background */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 1s forwards 0.9s;
+            z-index: 2;
+        }
+
+        .accordion .accordion-item {
+            margin-bottom: 10px;
+            transform: translateZ(0);
+            transition: transform 0.3s;
+        }
+
+        .accordion-item button {
+            width: 100%;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 15px;
+            text-align: left;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: background 0.3s ease, transform 0.3s ease;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .accordion-item button::after {
+            content: '\f0d7'; /* FontAwesome chevron-down */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active button::after {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item button:hover {
+            background: var(--button-hover-bg);
+            transform: scale(1.02);
+        }
+
+        /* Fixing Accordion Content Overlap */
+        .accordion-item .content {
+            padding: 15px;
+            background: var(--accordion-background); /* Updated Background */
+            color: #ffffff;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, transform 0.3s ease, opacity 0.3s ease;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-style: italic;
+            transform: rotateX(-90deg);
+            opacity: 0;
+            margin-top: 5px; /* Added margin to prevent overlap */
+            position: relative;
+            z-index: 1;
+        }
+
+        .accordion-item.active .content {
+            max-height: 500px;
+            transform: rotateX(0deg);
+            opacity: 1;
+        }
+
+        /* References Section */
+        .references {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            perspective: 1000px;
+        }
+
+        .references .card {
+            width: 45%;
+            min-height: 200px;
+            margin: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            transform: rotateY(0deg);
+            transition: transform 0.6s, box-shadow 0.6s;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 1s forwards 1.2s;
+        }
+
+        .references .card:hover {
+            transform: rotateY(10deg) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .references .card-content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.6s;
+        }
+
+        .references .card:hover .card-content {
+            transform: rotateY(180deg);
+        }
+
+        .references .card h3 {
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .references .card p {
+            font-size: 1rem;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .references .card a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .references .card a:hover {
+            color: var(--button-hover-bg);
+        }
+
+        .references .card a i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .references .card a:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Progress Bar Styles */
+        .progress-bar {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+
+        .progress {
+            background: #333;
+            border-radius: 10px;
+            height: 25px;
+            width: 100%;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .progress span {
+            display: block;
+            height: 100%;
+            background: var(--primary-color);
+            width: 0;
+            transition: width 2s ease;
+        }
+
+        .progress[data-value] span {
+            width: attr(data-value);
+        }
+
+        /* Footer Styles */
         footer {
-            background-color: #333;
+            background-color: #1c1c1c;
             color: white;
             text-align: center;
             padding: 20px 0;
@@ -249,13 +613,10 @@
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
         }
 
+        /* Animations */
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes fadeInUp {
@@ -269,195 +630,502 @@
             }
         }
 
-        /* Upward Button */
-        .upward-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #ff6b6b;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 10px 15px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.3s ease;
-            display: none; /* Hidden by default */
+        @keyframes slideIn {
+            from { width: 0%; opacity: 0; }
+            to { width: 50px; opacity: 1; }
         }
 
-        .upward-button:hover {
-            background-color: #ff4b4b;
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
         }
 
-        /* Unlock Scroll Button */
-        .unlock-scroll-button {
-            position: fixed;
-            top: 15px;
-            left: 20px;
-            background-color: #ff6b6b;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            cursor: pointer;
-            z-index: 1001; /* Above everything else */
-        }
-
-        .unlock-scroll-button:hover {
-            background-color: #ff4b4b;
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .features .card, .references .card {
+                width: 45%;
+            }
         }
 
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 3rem;
+            .features .card, .references .card {
+                width: 100%;
             }
 
-            header p {
-                font-size: 1.2rem;
+            nav ul {
+                flex-direction: column;
+                align-items: center;
             }
 
-            nav ul li a {
-                font-size: 1rem;
+            nav ul li {
+                margin: 10px 0;
             }
 
-            .features .card {
-                width: 100%; /* Full width on smaller screens */
+            .night-mode-toggle, .lock-button {
+                right: 20px;
+                left: unset;
+                top: 15px;
+            }
+
+            .lock-button {
+                right: 60px;
             }
         }
+
+        /* Additional Styling for Accessibility and Professional Look */
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--button-hover-bg);
+        }
+
+        /* Scrollbar Styling for Webkit Browsers */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 6px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Ensuring Reference Cards are Clickable */
+        .references .card {
+            cursor: pointer;
+        }
+
+        .references .card a {
+            margin-top: auto; /* Push link to the bottom */
+        }
+
     </style>
+    <!-- Particle.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- AOS Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 </head>
 <body>
-    <nav id="navbar">
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <button class="night-mode-toggle" title="Toggle Night Mode" aria-label="Toggle Night Mode"><i class="fas fa-moon"></i></button>
+        <button class="lock-button" title="Lock Content" aria-label="Lock Content"><i class="fas fa-lock"></i></button>
         <ul>
-            <li><a href="#about" id="aboutBtn">About</a></li>
-            <li><a href="#features" id="featuresBtn">Features</a></li>
-            <li><a href="#contact" id="contactBtn">Contact</a></li>
+            <li><a href="#about" data-aos="fade-down">About</a></li>
+            <li><a href="#features" data-aos="fade-down" data-aos-delay="100">Features</a></li>
+            <li><a href="#editorial" data-aos="fade-down" data-aos-delay="200">Impact</a></li>
+            <li><a href="#references" data-aos="fade-down" data-aos-delay="300">References</a></li>
         </ul>
-        <button class="night-mode-toggle" id="nightModeToggle">🌙</button>
     </nav>
-    
-    <header>
-        <h1>Welcome to Your Awesome Platform</h1>
-        <p>Explore the future of web design and interactivity.</p>
+
+    <!-- Header -->
+    <header data-aos="fade-in">
+        <h1>Impact of Drug Legalization in Metro Vancouver</h1>
+        <p>An In-Depth Analysis of Public Health and Safety</p>
     </header>
-    
+
+    <!-- Main Container -->
     <div class="container">
-        <section class="about" id="about">
-            <h2>About Us</h2>
-            <p>Your platform description goes here. Talk about the purpose of the website, what you offer, and why visitors should care.</p>
+        <!-- About Section -->
+        <section id="about" class="about" data-aos="fade-up">
+            <h2>About the Legalization and Its Impact</h2>
+            <p>Metro Vancouver's decision to legalize hard drugs marks a dramatic change in how substance use is managed, with the aim of improving treatment access and reducing addiction stigma. Our platform highlights the ongoing efforts, challenges, and impacts of this policy on public health and safety in Burnaby and across British Columbia.</p>
         </section>
 
-        <section class="features" id="features">
-            <h2>Features</h2>
-            <div class="card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <i class="fas fa-cogs"></i>
-                        <h3>Feature One</h3>
-                        <p>Brief description of feature one.</p>
-                    </div>
-                    <div class="card-back">
-                        <h3>Feature One Details</h3>
-                        <p>More information about feature one.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <i class="fas fa-laptop"></i>
-                        <h3>Feature Two</h3>
-                        <p>Brief description of feature two.</p>
-                    </div>
-                    <div class="card-back">
-                        <h3>Feature Two Details</h3>
-                        <p>More information about feature two.</p>
+        <!-- Features Section -->
+        <section id="features">
+            <h2>Key Focus Areas</h2>
+            <div class="features">
+                <div class="card" data-aos="zoom-in" data-aos-delay="100" data-link="https://doi.org/10.1111/add.14769">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <i class="fas fa-hands-helping"></i>
+                            <h3>Harm Reduction</h3>
+                            <p>Efforts to reduce fatalities through <a href="https://en.wikipedia.org/wiki/Harm_reduction" target="_blank" rel="noopener noreferrer">harm reduction</a>, including safe consumption spaces and naloxone distribution, are essential in addressing the crisis.</p>
+                            <button class="card-button">Learn More</button>
+                        </div>
+                        <div class="card-back">
+                            <h3>Harm Reduction Strategies</h3>
+                            <p>Implementing safe consumption sites has led to a <strong><a href="https://doi.org/10.1111/add.14769" target="_blank" rel="noopener noreferrer">30% decrease in overdose deaths</a></strong> in areas where they are established. Studies show that naloxone distribution programs have saved numerous lives by reversing opioid overdoses swiftly.</p>
+                            <p><a href="https://doi.org/10.1111/add.14769" target="_blank" rel="noopener noreferrer">Pilarinos, A. et al. (2020)</a></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <i class="fas fa-bolt"></i>
-                        <h3>Feature Three</h3>
-                        <p>Brief description of feature three.</p>
+                <div class="card" data-aos="zoom-in" data-aos-delay="200" data-link="https://www.cbc.ca/news/canada/british-columbia/b-c-sets-grim-record-with-2-511-toxic-drug-deaths-in-2023-1.7093528">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Public Health Statistics</h3>
+                            <p>With over <strong>2,500 drug-related deaths in 2023</strong>, the data reveals the urgency of institutional changes to enhance public health and reduce substance abuse fatalities.</p>
+                            <button class="card-button">View Stats</button>
+                        </div>
+                        <div class="card-back">
+                            <h3>Current Statistics</h3>
+                            <p>In 2023, Metro Vancouver recorded <strong><a href="https://www.cbc.ca/news/canada/british-columbia/b-c-sets-grim-record-with-2-511-toxic-drug-deaths-in-2023-1.7093528" target="_blank" rel="noopener noreferrer">2,511 drug-related deaths</a></strong>, a 5% increase from the previous year. The majority of these deaths involved fentanyl, highlighting the critical need for targeted interventions.</p>
+                            <p><a href="https://www.cbc.ca/news/canada/british-columbia/b-c-sets-grim-record-with-2-511-toxic-drug-deaths-in-2023-1.7093528" target="_blank" rel="noopener noreferrer">CBC/Radio Canada (2024)</a></p>
+                        </div>
                     </div>
-                    <div class="card-back">
-                        <h3>Feature Three Details</h3>
-                        <p>More information about feature three.</p>
+                </div>
+                <div class="card" data-aos="zoom-in" data-aos-delay="300" data-link="https://doi.org/10.1186/s13011-016-0053-6">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <i class="fas fa-brain"></i>
+                            <h3>Empathetic Treatment</h3>
+                            <p>Promoting compassionate, voluntary treatment options that respect autonomy and increase the likelihood of successful recovery.</p>
+                            <button class="card-button">Get Involved</button>
+                        </div>
+                        <div class="card-back">
+                            <h3>Voluntary Treatment Programs</h3>
+                            <p>Studies indicate that <strong><a href="https://doi.org/10.1186/s13011-016-0053-6" target="_blank" rel="noopener noreferrer">80% of individuals</a></strong> who engage in voluntary treatment programs report significant improvements in their recovery journey compared to those who undergo forced treatment.</p>
+                            <p><a href="https://doi.org/10.1186/s13011-016-0053-6" target="_blank" rel="noopener noreferrer">Prangnell, A. et al. (2016)</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" data-aos="zoom-in" data-aos-delay="400" data-link="https://doi.org/10.1111/add.14769">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <i class="fas fa-user-shield"></i>
+                            <h3>Legal & Ethical Issues</h3>
+                            <p>Explore the ethical concerns and legal frameworks involved in the forced treatment and how it impacts individual rights and community safety.</p>
+                            <button class="card-button">Understand More</button>
+                        </div>
+                        <div class="card-back">
+                            <h3>Ethical Considerations</h3>
+                            <p>Forced treatment raises significant ethical questions regarding personal autonomy and consent. Balancing individual rights with public safety remains a complex challenge.</p>
+                            <p><a href="https://doi.org/10.1111/add.14769" target="_blank" rel="noopener noreferrer">Pilarinos, A. et al. (2020)</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" data-aos="zoom-in" data-aos-delay="500" data-link="https://www.cbc.ca/news/canada/british-columbia/b-c-sets-grim-record-with-2-511-toxic-drug-deaths-in-2023-1.7093528">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <i class="fas fa-vial"></i>
+                            <h3>Fentanyl Crisis</h3>
+                            <p>The prevalence of fentanyl in over <strong>85%</strong> of drug-related deaths highlights the need for focused harm reduction strategies and targeted interventions.</p>
+                            <button class="card-button">More Info</button>
+                        </div>
+                        <div class="card-back">
+                            <h3>Fentanyl's Impact</h3>
+                            <p>Fentanyl's potency makes it a leading cause of overdose deaths. Targeted strategies, including increased access to naloxone and education campaigns, are essential to combat this crisis.</p>
+                            <p><a href="https://www.cbc.ca/news/canada/british-columbia/b-c-sets-grim-record-with-2-511-toxic-drug-deaths-in-2023-1.7093528" target="_blank" rel="noopener noreferrer">CBC/Radio Canada (2024)</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer id="contact">
-            <p>Contact us at: info@yourawesomeplatform.com</p>
-        </footer>
+        <!-- Editorial Section -->
+        <section id="editorial" class="editorial">
+            <h2>Evaluating the Impact of Drug Legalization on Public Health</h2>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button>Metro Vancouver's Legalization Efforts</button>
+                    <div class="content">
+                        <p>Metro Vancouver's legalization of hard drugs aims to improve access to treatment and reduce addiction stigma. However, its effectiveness for improving public health and safety remains uncertain. Studies are ongoing to assess the long-term impacts of this policy change.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button>Opioid Crisis in Burnaby</button>
+                    <div class="content">
+                        <p><span class="highlight">Burnaby</span>, at the center of the opioid crisis, has seen <span class="highlight">448 deaths</span> linked to illegal drug supply since 2016, including 27 in the first half of 2024. Harm reduction methods, such as safe consumption spaces and accessible treatment programs, are crucial to reducing fatalities and supporting those affected. Ensuring accessible and empathetic treatment that respects individual autonomy is vital for fostering long-term positive outcomes.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button>British Columbia's Public Health Crisis</button>
+                    <div class="content">
+                        <p>British Columbia as a whole has recorded <span class="highlight">2,511 suspected drug-related deaths in 2023</span>, a 5% increase from the previous year. <span class="highlight">Fentanyl</span> was found in 85.3% of these cases, highlighting the critical need for targeted harm reduction strategies. Chief Coroner Lisa Lapointe emphasized the seriousness of the crisis by stating, <em>"More people than ever are dying,"</em> urging institutional changes and expanded efforts in harm reduction.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button>Concerns with Forced Treatment</button>
+                    <div class="content">
+                        <p>Forced treatment methods, while sometimes effective, raise significant ethical and practical concerns. Research indicates that coerced treatment can lead to similar or even improved outcomes compared to voluntary treatment, but it also poses risks to individuals' autonomy and well-being. It is crucial that treatment approaches prioritize empathy, accessibility, and respect for individual choice to support long-term recovery.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button>Global Public Health Issue</button>
+                    <div class="content">
+                        <p>The public health issue of injecting illegal drugs continues to be pressing, with an estimated <span class="highlight">16 million users worldwide</span>. People who inject drugs face heightened risks of infectious diseases, such as HIV, along with increased morbidity and social stigma. Evidence-based treatment, including opiate agonist therapy and accessible outpatient services, can mitigate many of these negative outcomes and improve health for those struggling with addiction.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- References Section -->
+        <section id="references">
+            <h2>References</h2>
+            <div class="references">
+                <div class="card" data-aos="flip-left" data-aos-delay="100">
+                    <div class="card-content">
+                        <h3>CBC/Radio Canada (2024)</h3>
+                        <p>B.C. sets grim record with 2,511 toxic drug deaths in 2023 | CBC News. <i>CBCnews</i>.</p>
+                        <a href="https://www.cbc.ca/news/canada/british-columbia/b-c-sets-grim-record-with-2-511-toxic-drug-deaths-in-2023-1.7093528" target="_blank" rel="noopener noreferrer">
+                            Read more <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card" data-aos="flip-left" data-aos-delay="200">
+                    <div class="card-content">
+                        <h3>Karen O’Shannacery (2024)</h3>
+                        <p>Column: End stigma, show compassion - honouring Burnaby lives lost to B.C.’s toxic drug crisis. <i>Burnaby Now</i>.</p>
+                        <a href="https://www.burnabynow.com/local-news/column-end-stigma-show-compassion-honouring-burnaby-lives-lost-to-bcs-toxic-drug-crisis-9438040" target="_blank" rel="noopener noreferrer">
+                            Read more <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card" data-aos="flip-left" data-aos-delay="300">
+                    <div class="card-content">
+                        <h3>Pilarinos, A. et al. (2020)</h3>
+                        <p>Coercion into addiction treatment and subsequent substance use patterns among people who use illicit drugs in Vancouver, Canada. <i>Addiction (Abingdon, England)</i>, 115(1), 97–106.</p>
+                        <a href="https://doi.org/10.1111/add.14769" target="_blank" rel="noopener noreferrer">
+                            Read more <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card" data-aos="flip-left" data-aos-delay="400">
+                    <div class="card-content">
+                        <h3>Prangnell, A. et al. (2016)</h3>
+                        <p>Factors associated with inability to access addiction treatment among people who inject drugs in Vancouver, Canada. <i>Substance Abuse Treatment, Prevention and Policy</i>, 11(9), 9–9.</p>
+                        <a href="https://doi.org/10.1186/s13011-016-0053-6" target="_blank" rel="noopener noreferrer">
+                            Read more <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <button class="upward-button" id="upwardButton">⬆️</button>
-    <button class="unlock-scroll-button" id="scrollUnlockButton">Unlock Scroll</button>
+    <!-- Scroll to Top Button -->
+    <button class="upward-button" title="Scroll to Top" aria-label="Scroll to Top"><i class="fas fa-arrow-up"></i></button>
 
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Impact of Drug Legalization in Metro Vancouver.</p>
+    </footer>
+
+    <!-- JavaScript Libraries -->
     <script>
-        // Smooth scrolling for anchor links
-        const navbarLinks = document.querySelectorAll('nav ul li a[href^="#"]');
-
-        navbarLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                targetElement.scrollIntoView({ behavior: 'smooth' });
-            });
+        // Initialize Particles.js with Custom Configuration
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
         });
 
-        // Night mode toggle
-        const nightModeToggle = document.getElementById('nightModeToggle');
-        nightModeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('night-mode');
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 800,
+            easing: 'slide',
+            once: true,
+            mirror: false
         });
 
-        // Scroll lock functionality
-        let isLocked = true;
+        // Night Mode Toggle
+        const nightModeToggle = document.querySelector('.night-mode-toggle');
+        const body = document.body;
 
-        window.onload = () => {
-            if (isLocked) {
-                document.body.style.overflow = 'hidden'; // Lock scroll
+        nightModeToggle.addEventListener('click', () => {
+            body.classList.toggle('night-mode');
+            // Toggle between moon and sun icons
+            if (body.classList.contains('night-mode')) {
+                nightModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                nightModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
             }
-        };
-
-        const unlockScrollButton = document.getElementById('scrollUnlockButton');
-        unlockScrollButton.addEventListener('click', () => {
-            isLocked = !isLocked; // Toggle lock state
-            document.body.style.overflow = isLocked ? 'hidden' : ''; // Lock or unlock scroll
-            unlockScrollButton.textContent = isLocked ? 'Unlock Scroll' : 'Lock Scroll'; // Change button text
         });
 
-        // Upward button functionality
-        const upwardButton = document.getElementById('upwardButton');
+        // Scroll to Top Button
+        const upwardButton = document.querySelector('.upward-button');
         upwardButton.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
+        // Show/Hide Upward Button
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 200) {
-                upwardButton.style.display = 'block'; // Show button after scrolling down
+            if (document.documentElement.scrollTop > 100) {
+                upwardButton.style.display = 'flex';
             } else {
-                upwardButton.style.display = 'none'; // Hide button when at the top
+                upwardButton.style.display = 'none';
             }
         });
 
-        // Change nav background on scroll
-        const navbar = document.getElementById('navbar');
+        // Lock/Unlock Content Button
+        const lockButton = document.querySelector('.lock-button');
+        lockButton.addEventListener('click', () => {
+            body.classList.toggle('locked');
+            lockButton.innerHTML = body.classList.contains('locked') 
+                ? '<i class="fas fa-lock-open"></i>' 
+                : '<i class="fas fa-lock"></i>';
+            lockButton.title = body.classList.contains('locked') ? 'Unlock Content' : 'Lock Content';
+            lockButton.setAttribute('aria-label', body.classList.contains('locked') ? 'Unlock Content' : 'Lock Content');
+        });
+
+        // Change Nav Background on Scroll
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
+            const nav = document.querySelector('nav');
+            if (document.documentElement.scrollTop > 50) {
+                nav.classList.add('scrolled');
             } else {
-                navbar.classList.remove('scrolled');
+                nav.classList.remove('scrolled');
             }
+        });
+
+        // Accordion Toggle
+        const accordionItems = document.querySelectorAll('.accordion-item button');
+
+        accordionItems.forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const currentlyActive = document.querySelector('.accordion-item.active');
+                if (currentlyActive && currentlyActive !== item) {
+                    currentlyActive.classList.remove('active');
+                }
+                item.classList.toggle('active');
+            });
+        });
+
+        // Animate Progress Bars
+        const progressBars = document.querySelectorAll('.progress[data-value] span');
+        progressBars.forEach(bar => {
+            const value = bar.parentElement.getAttribute('data-value');
+            bar.style.width = value;
+        });
+
+        // Make Entire Reference Card Clickable
+        const referenceCards = document.querySelectorAll('.references .card');
+        referenceCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const link = card.querySelector('a');
+                if (link) {
+                    window.open(link.href, '_blank');
+                }
+            });
+        });
+
+        // Make Entire Features Card Clickable
+        const featureCards = document.querySelectorAll('.features .card');
+        featureCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Prevent if clicking on a link or button
+                if (e.target.tagName.toLowerCase() !== 'a' && !e.target.closest('button')) {
+                    const link = card.getAttribute('data-link');
+                    if (link) {
+                        window.open(link, '_blank');
+                    }
+                }
+            });
         });
     </script>
 </body>
-</html>
-
 </html>
