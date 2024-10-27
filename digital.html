@@ -24,7 +24,9 @@
             --nav-scrolled-background: rgba(41, 43, 44, 1);
             --link-hover-bg: rgba(255, 107, 107, 0.2);
             --button-hover-bg: #ff4b4b;
-            --accordion-background: rgba(41, 43, 44, 0.9); /* New Variable for Accordion Background */
+            --accordion-background: rgba(41, 43, 44, 0.9);
+            --submission-bg: rgba(255, 255, 255, 0.1);
+            --futuristic-gradient: linear-gradient(45deg, #1f4037, #99f2c8);
         }
 
         /* Global Styles */
@@ -572,75 +574,67 @@
             transform: translateX(5px);
         }
 
-        /* Progress Bar Styles */
-        .progress-bar {
-            width: 100%;
+        /* Submission Information Box Styles */
+        .submission-info {
+            padding: 40px 20px;
+            background: var(--submission-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin: 40px auto;
             max-width: 800px;
-            margin: 20px auto;
-            padding: 10px;
+            text-align: left;
+            color: #ffffff;
+            opacity: 0;
+            animation: fadeIn 1s forwards 1.5s;
+            transform: rotateY(10deg);
+            transition: transform 0.6s ease, box-shadow 0.6s ease;
         }
 
-        .progress {
-            background: #333;
-            border-radius: 10px;
-            height: 25px;
-            width: 100%;
-            margin-bottom: 15px;
-            overflow: hidden;
+        .submission-info:hover {
+            transform: rotateY(0deg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
         }
 
-        .progress span {
-            display: block;
-            height: 100%;
-            background: var(--primary-color);
-            width: 0;
-            transition: width 2s ease;
-        }
-
-        .progress[data-value] span {
-            width: attr(data-value);
-        }
-
-        /* Footer Styles */
-        footer {
-            background-color: #1c1c1c;
-            color: white;
+        .submission-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--accent-color);
             text-align: center;
-            padding: 20px 0;
+            text-shadow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.7s;
+        }
+
+        .info-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            perspective: 1000px;
+        }
+
+        .info-box p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            line-height: 1.6;
+            background: var(--futuristic-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             position: relative;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+            animation: float 3s ease-in-out infinite;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .info-box strong {
+            color: var(--accent-color);
         }
 
-        @keyframes fadeInUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
-        @keyframes slideIn {
-            from { width: 0%; opacity: 0; }
-            to { width: 50px; opacity: 1; }
-        }
-
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-10px); }
-        }
-
-        /* Responsive Design */
+        /* Responsive Adjustments */
         @media (max-width: 992px) {
             .features .card, .references .card {
                 width: 45%;
@@ -669,6 +663,19 @@
 
             .lock-button {
                 right: 60px;
+            }
+
+            /* Submission Info Box Responsive */
+            .submission-info {
+                padding: 30px 15px;
+            }
+
+            .submission-info h2 {
+                font-size: 2rem;
+            }
+
+            .info-box p {
+                font-size: 1rem;
             }
         }
 
@@ -707,6 +714,32 @@
             margin-top: auto; /* Push link to the bottom */
         }
 
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from { width: 0%; opacity: 0; }
+            to { width: 50px; opacity: 1; }
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
     </style>
     <!-- Particle.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
@@ -726,6 +759,7 @@
             <li><a href="#features" data-aos="fade-down" data-aos-delay="100">Features</a></li>
             <li><a href="#editorial" data-aos="fade-down" data-aos-delay="200">Impact</a></li>
             <li><a href="#references" data-aos="fade-down" data-aos-delay="300">References</a></li>
+            <li><a href="#submission-info" data-aos="fade-down" data-aos-delay="400">Submission Details</a></li> <!-- New Navigation Link -->
         </ul>
     </nav>
 
@@ -904,6 +938,19 @@
                 </div>
             </div>
         </section>
+
+        <!-- Submission Information Box -->
+        <section id="submission-info" class="submission-info" data-aos="fade-up">
+            <h2>Submission Details</h2>
+            <div class="info-box">
+                <p><strong>Name:</strong> Wong Tsz Hin</p>
+                <p><strong>Student ID:</strong> WONTD2203</p>
+                <p><strong>Course Code:</strong> CMNS120</p>
+                <p><strong>Date of Submission:</strong> 28-10-2024</p>
+            </div>
+        </section>
+
+        <!-- References Section Continued (if needed) -->
     </div>
 
     <!-- Scroll to Top Button -->
